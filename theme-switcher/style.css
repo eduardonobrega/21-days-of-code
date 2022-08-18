@@ -1,0 +1,51 @@
+:root {
+  font-size: 62.5%;
+  --dark: #292c35;
+  --light: #f1f1f1;
+  --label: #111;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 1.6rem;
+  min-height: 100vh;
+  background-color: var(--light);
+  display: grid;
+  place-items: center;
+  transition: background-color 300ms;
+}
+
+#switcher {
+  position: relative;
+  background-color: var(--label);
+  width: fit-content;
+  border-radius: 999.9rem;
+
+  display: flex;
+  gap: 4.6rem;
+  padding: 0.8rem 1.2rem;
+  align-items: center;
+}
+
+img {
+  width: 9.4rem;
+}
+
+#ball {
+  position: absolute;
+  background-color: var(--light);
+  width: 8.7rem;
+  height: 8.7rem;
+  border-radius: 50%;
+  transition: transform 500ms;
+  cursor: pointer;
+}
+
+.dark {
+  transform: translateX(14.5rem);
+}
