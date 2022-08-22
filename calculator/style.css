@@ -41,6 +41,7 @@ input {
   padding: 1.5rem;
   margin-left: 1.1rem;
   overflow: hidden;
+  gap: 2rem;
 }
 
 #display #expression {
@@ -48,6 +49,7 @@ input {
   font-size: 1.6rem;
   line-height: 2rem;
   color: #EFEFEF;
+  height: 2rem;
 }
 
 #display #value {
