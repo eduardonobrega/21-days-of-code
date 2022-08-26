@@ -4,12 +4,11 @@ const numbersButtons = document.querySelectorAll('.number');
 const backspaceButton = document.querySelector('#backspace');
 const operationsButtons = document.querySelectorAll('.operation');
 const equalityButton = document.querySelector('#equality');
+const clearButton = document.querySelector('#clear');
 const displayValue = document.querySelector('#display #value');
 const displayExpression = document.querySelector('#display #expression');
 
 const numberDisplay = [];
-let n1 = 0;
-let n2 = 0;
 let operation;
 let result;
 
@@ -19,19 +18,24 @@ function resetArray(arr) {
   }
 }
 
-function attDisplayExpression(n1, op, n2) {
-  displayExpression.textContent = `${n1 || ''} ${op || ''} ${n2 ? n2 + ' =' : ''}`;
+function attDisplayExpression(op, x, y) {
+  displayExpression.textContent = `${x == undefined ? '' : x} ${op || ''} ${
+    y || y == 0 ? y + ' =' : ''
+  }`;
 }
 
 function attDisplayValue(n) {
   let number = numberDisplay.join('') || 0;
-  if (n) {
+  if (n !== undefined) {
     number = n;
   }
   displayValue.textContent = number;
 }
 
+const getDisplayValue = () => Number(displayValue.textContent);
+
 function solve(op, x, y) {
+  let result;
   switch (op) {
     case '/':
       result = calculator.division(x, y);
@@ -47,9 +51,16 @@ function solve(op, x, y) {
       result = calculator.sum(x, y);
       break;
   }
-  attDisplayValue(result);
-  attDisplayExpression(x, operation, y);
+  return result;
 }
+
+const clear = () => {
+  result = null;
+  operation = null;
+  resetArray(numberDisplay);
+  attDisplayValue();
+  attDisplayExpression();
+};
 
 numbersButtons.forEach((numberBtn) =>
   numberBtn.addEventListener('click', () => {
@@ -63,24 +74,30 @@ numbersButtons.forEach((numberBtn) =>
   })
 );
 
+operationsButtons.forEach((operationBtn) => {
+  operationBtn.addEventListener('click', () => {
+    result = getDisplayValue(); // analizar
+
+    operation = operationBtn.id;
+
+    attDisplayExpression(operation, result);
+    resetArray(numberDisplay);
+  });
+});
+
 backspaceButton.addEventListener('click', () => {
   numberDisplay.pop();
   attDisplayValue();
 });
 
-operationsButtons.forEach((operationBtn) => {
-  operationBtn.addEventListener('click', () => {
-    if (n1 == 0) {
-      n1 = Number(numberDisplay.join('')) || 0;
-    }
-    operation = operationBtn.id;
-
-    attDisplayExpression(n1, operation);
-    resetArray(numberDisplay);
-  });
-});
-
 equalityButton.addEventListener('click', () => {
-  n2 = Number(numberDisplay.join(''));
-  solve(operation, n1, n2);
+  let x = result;
+  let y = getDisplayValue();
+
+  result = solve(operation, x, y);
+
+  attDisplayValue(result);
+  attDisplayExpression(operation, x, y);
 });
+
+clearButton.addEventListener('click', clear);
